@@ -1,12 +1,12 @@
 from redbot.core import commands, bot as Bot
 from discord.ext.commands import Context
-import subprocess
+from os import system
 
 class Minecraft(commands.Cog):
     def __init__(self, bot: Bot): # noqa
         self.bot: Bot = bot
 
     @commands.command()
-    async def ping(self, ctx: Context):
-        subprocess.run(["tmux", "send-keys", "-t", "CM", "\"say", "meow\"", "enter"])
-        await ctx.send('Ponged!')
+    async def sayHello(self, ctx: Context):
+        system('tmux send-keys -t CM "say hello from the bot :)" enter')
+        await ctx.send('sent :D')
