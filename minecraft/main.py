@@ -20,9 +20,9 @@ class Minecraft(commands.Cog):
 
     @commands.group()
     async def cobblemon(self, ctx):
-        ctx.send("This function hasn't been defined yet, sorry D:")
+        pass
 
-    @cobblemon.command()
+    @cobblemon.command(name="whitelist")
     @commands.has_role(1335725605072801922)
     async def whitelist(self, ctx: Context, user):
         if len(user) > 16:
