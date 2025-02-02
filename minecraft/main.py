@@ -12,8 +12,9 @@ def checkIfContains(stringToCheck: str, stringWithUnsafeCharacters):
 def has_any_role(roles: list):
     async def predicate(ctx: Context):
         userRoles = ctx.author.roles
+
         for role in roles:
-            if role in userRoles: return True
+            if ctx.guild.get_role(role) in userRoles: return True
         return False
     return check(predicate)
 
