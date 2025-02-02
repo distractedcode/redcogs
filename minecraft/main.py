@@ -9,4 +9,4 @@ class Minecraft(commands.Cog):
     @commands.command()
     async def ping(self, ctx: Context):
         subprocess.run(["tmux", "send-keys", "-t", "CM", "\"say", "meow\"", "enter"])
-        await ctx.send('Pong!')
+        await ctx.send('Ponged!')
