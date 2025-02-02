@@ -24,6 +24,7 @@ class Minecraft(commands.Cog):
 
     @cobblemon.command()
     @commands.is_owner()
+    @commands.has_role(1335725605072801922)
     async def whitelist(self, ctx: Context, user):
         if len(user) > 16:
             await ctx.send('Username is too long D:')
