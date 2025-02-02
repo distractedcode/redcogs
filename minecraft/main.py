@@ -22,9 +22,14 @@ class Minecraft(commands.Cog):
     async def cobblemon(self, ctx):
         pass
 
-    @cobblemon.command(name="whitelist")
-    @commands.has_role(1335725605072801922)
-    async def whitelist(self, ctx: Context, user):
+    @cobblemon.group()
+    async def whitelist(self, ctx):
+        pass
+
+    @whitelist.command(name="add")
+    @commands.has_role(1155382764984619019) # Owner Role
+    @commands.has_role(1335725605072801922) # cm_whitelist_command
+    async def whitelist_add(self, ctx: Context, user):
         if len(user) > 16:
             await ctx.send('Username is too long D:')
             return
@@ -33,3 +38,16 @@ class Minecraft(commands.Cog):
             return
         system('tmux send-keys -t CM \"whitelist add ' + user + '\" enter')
         await ctx.send('You *should* be whitelisted now.')
+
+    @whitelist.command(name="remove")
+    @commands.has_role(1155382764984619019) # Owner Role
+    @commands.has_role(1335725605072801922) # cm_whitelist_command
+    async def whitelist_remove(self, ctx: Context, user):
+        if len(user) > 16:
+            await ctx.send('Username is too long D:')
+            return
+        if checkIfContains(user, "()-&@*$|%~<>:\"'/\\?!#^*"):
+            await ctx.send('Username contains invalid characters.')
+            return
+        system('tmux send-keys -t CM \"whitelist remove ' + user + '\" enter')
+        await ctx.send(f'{user} *should* have been removed from the whitelist')
