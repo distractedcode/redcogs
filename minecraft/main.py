@@ -44,7 +44,7 @@ class Minecraft(commands.Cog):
         player_list = [player.name for player in status.players.sample] if status.players.sample else "No players online"
 
         embed = discord.Embed(title=f"Cobblemon :D", color=discord.Color.from_rgb(150, 0, 255))  # Use discord.Color
-        embed.add_field(name="Players", value=f"{players_online}/{players_max}", inline=True)
+        embed.add_field(name=f"Players: {players_online}/{players_max}", value=f"", inline=True)
         if isinstance(player_list, list):
             embed.add_field(name="Player List", value=", ".join(player_list), inline=False)
         else:
