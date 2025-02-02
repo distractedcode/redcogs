@@ -18,9 +18,11 @@ class Minecraft(commands.Cog):
         }
         self.config.register_guild(**default_guild)
 
+
+
     @commands.command()
     @commands.is_owner()
-    async def whitelist(self, ctx: Context, user):
+    async def cobblemon_whitelist(self, ctx: Context, user):
         if len(user) != 16:
             await ctx.send('Username is too long. Contact code if this actually your user LOL')
             return
