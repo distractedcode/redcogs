@@ -3,5 +3,5 @@
   "short": "Minecraft-related commands",
   "description": "Contains commands related to minecraft. Some commands (start/stop) require that the device that hosts the discord bot has a minecraft server running under tmux. Some commands require RCON enabled, too.",
   "end_user_data_statement": "No user data is saved. Configuration data is saved.",
-  "requirements": []
+  "requirements": ["mcstatus"]
 }

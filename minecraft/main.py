@@ -2,6 +2,7 @@ from redbot.core import commands, bot as Bot, app_commands, Config
 import discord
 from discord.ext.commands import Context, check
 from os import system
+from mcstatus import JavaServer
 
 def checkIfContains(stringToCheck: str, stringWithUnsafeCharacters):
     for unsafe in stringWithUnsafeCharacters:
@@ -31,6 +32,24 @@ class Minecraft(commands.Cog):
     @commands.group()
     async def cobblemon(self, ctx):
         pass
+
+    @cobblemon.command()
+    async def list(self):
+        server = JavaServer('localhost', 25565, 5)
+
+        status = server.status()
+
+        players_online = status.players.online
+        players_max = status.players.max
+        player_list = [player.name for player in status.players.sample] if status.players.sample else "No players online"
+
+        embed = discord.Embed(title=f"Cobblemon :D")  # Use discord.Color
+        embed.add_field(name="Players", value=f"{players_online}/{players_max}", inline=True)
+        if isinstance(player_list, list):
+            embed.add_field(name="Player List", value=", ".join(player_list), inline=False)
+        else:
+             embed.add_field(name="Player List", value=player_list, inline=False)
+        await ctx.send(embed=embed) # Send the embed
 
     @cobblemon.group()
     @has_any_role([1155382764984619019, 1335725605072801922]) # Bot Owner's Role, cm_whitelist
