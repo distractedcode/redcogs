@@ -18,13 +18,15 @@ class Minecraft(commands.Cog):
         }
         self.config.register_guild(**default_guild)
 
+    @commands.group()
+    async def cobblemon(self, ctx):
+        ctx.send("This function hasn't been defined yet, sorry D:")
 
-
-    @commands.command()
-    @commands.is_owner()
-    async def cobblemon_whitelist(self, ctx: Context, user):
+    @cobblemon.command()
+    @cobblemon.is_owner()
+    async def whitelist(self, ctx: Context, user):
         if len(user) > 16:
-            await ctx.send('Username is too long. Contact code if this actually your user LOL - debug:' + f'{user} = len{len(user)}')
+            await ctx.send('Username is too long D:')
             return
         if checkIfContains(user, "()-&@*$|%~<>:\"'/\\?!#^*"):
             await ctx.send('Username contains invalid characters.')
