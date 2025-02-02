@@ -1,6 +1,6 @@
 from redbot.core import commands, bot as Bot, app_commands, Config
 import discord
-from discord.ext.commands import Context
+from discord.ext.commands import Context, check
 from os import system
 
 def checkIfContains(stringToCheck: str, stringWithUnsafeCharacters):
@@ -8,6 +8,15 @@ def checkIfContains(stringToCheck: str, stringWithUnsafeCharacters):
         if unsafe in stringToCheck:
             return True
     return False
+
+def has_any_role(roles: list):
+    async def predicate(ctx: Context):
+        userRoles = ctx.author.roles
+        for role in roles:
+            if role in userRoles: return True
+        return False
+    return check(predicate)
+
 
 class Minecraft(commands.Cog):
     def __init__(self, bot: Bot): # noqa
@@ -23,12 +32,12 @@ class Minecraft(commands.Cog):
         pass
 
     @cobblemon.group()
+    @has_any_role([1155382764984619019, 1335725605072801922]) # Bot Owner's Role, cm_whitelist
     async def whitelist(self, ctx):
         pass
 
     @whitelist.command(name="add")
-    @commands.has_role(1155382764984619019) # Owner Role
-    @commands.has_role(1335725605072801922) # cm_whitelist_command
+    @has_any_role([1155382764984619019, 1335725605072801922]) # Bot Owner's Role, cm_whitelist
     async def whitelist_add(self, ctx: Context, user):
         if len(user) > 16:
             await ctx.send('Username is too long D:')
@@ -37,11 +46,10 @@ class Minecraft(commands.Cog):
             await ctx.send('Username contains invalid characters.')
             return
         system('tmux send-keys -t CM \"whitelist add ' + user + '\" enter')
-        await ctx.send('You *should* be whitelisted now.')
+        await ctx.send(f'{user} *should* be now whitelisted.')
 
     @whitelist.command(name="remove")
-    @commands.has_role(1155382764984619019) # Owner Role
-    @commands.has_role(1335725605072801922) # cm_whitelist_command
+    @has_any_role([1155382764984619019, 1335725605072801922]) # Bot Owner's Role, cm_whitelist
     async def whitelist_remove(self, ctx: Context, user):
         if len(user) > 16:
             await ctx.send('Username is too long D:')
