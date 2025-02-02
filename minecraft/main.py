@@ -23,7 +23,7 @@ class Minecraft(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def cobblemon_whitelist(self, ctx: Context, user):
-        if len(user) != 16:
+        if len(user) > 16:
             await ctx.send('Username is too long. Contact code if this actually your user LOL - debug:' + f'{user} = len{len(user)}')
             return
         if checkIfContains(user, "()-&@*$|%~<>:\"'/\\?!#^*"):
