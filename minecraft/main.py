@@ -34,7 +34,7 @@ class Minecraft(commands.Cog):
         pass
 
     @cobblemon.command()
-    async def list(self):
+    async def list(self, ctx):
         server = JavaServer('localhost', 25565, 5)
 
         status = server.status()
