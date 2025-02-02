@@ -29,5 +29,5 @@ class Minecraft(commands.Cog):
         if checkIfContains(user, "()-&@*$|%~<>:\"'/\\?!#^*"):
             await ctx.send('Username contains invalid characters.')
             return
-        system('tmux send-keys -t CM \"whitelist add' + user + '\" enter')
+        system('tmux send-keys -t CM \"whitelist add ' + user + '\" enter')
         await ctx.send('You *should* be whitelisted now.')
