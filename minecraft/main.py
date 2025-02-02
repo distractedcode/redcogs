@@ -23,7 +23,7 @@ class Minecraft(commands.Cog):
         ctx.send("This function hasn't been defined yet, sorry D:")
 
     @cobblemon.command()
-    @cobblemon.is_owner()
+    @commands.is_owner()
     async def whitelist(self, ctx: Context, user):
         if len(user) > 16:
             await ctx.send('Username is too long D:')
