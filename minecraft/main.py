@@ -3,6 +3,7 @@ import discord
 from discord.ext.commands import Context, check
 from os import system
 from mcstatus import JavaServer
+from mcrcon import MCRcon
 
 def checkIfContains(stringToCheck: str, stringWithUnsafeCharacters):
     for unsafe in stringWithUnsafeCharacters:
@@ -18,6 +19,12 @@ def has_any_role(roles: list):
             if ctx.guild.get_role(role) in userRoles: return True
         return False
     return check(predicate)
+
+def sendCommandToMinecraftServer(command: str, password = "", port = 25575):
+    with MCRcon("localhost", port=port, password=password) as mcr:
+        resp = mcr.command("/" + command)
+        return resp
+
 
 
 class Minecraft(commands.Cog):
@@ -79,3 +86,16 @@ class Minecraft(commands.Cog):
             return
         system('tmux send-keys -t CM \"whitelist remove ' + user + '\" enter')
         await ctx.send(f'{user} *should* have been removed from the whitelist')
+
+    @cobblemon.command(name="send")
+    @commands.is_owner()
+    async def send(self, ctx: Context, *, command):
+        keys: dict = self.bot.get_shared_api_tokens("minecraft")
+        if not keys.get('password'):
+            await ctx.send('Please set your rcon password in the Shared API Keys (!!set api) under service "minecraft" with key "password".')
+            return
+        password = keys.get('password')
+        port = keys.get('port') or 25575
+        sendCommandToMinecraftServer(command, password, port)
+
+
