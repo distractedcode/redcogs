@@ -124,8 +124,19 @@ class Minecraft(commands.Cog):
         if checkIfContains(user, "()-&@*$|%~<>:\"'/\\?!#^*"):
             await ctx.send('Username contains invalid characters.')
             return
-        system('tmux send-keys -t CM \"whitelist add ' + user + '\" enter')
-        await ctx.send(f'{user} *should* be now whitelisted.')
+        keys: dict = await self.bot.get_shared_api_tokens("minecraft")
+        if not keys.get('password'):
+            await ctx.send(
+                'Please set your rcon password in the Shared API Keys (!!set api) under service "minecraft" with key "password".')
+            return
+        password = keys.get('password')
+        try:
+            port = int(keys.get('port')) or 25575
+        except:
+            port = 25575
+
+        res = sendCommandToMinecraftServer(f'whitelist add {user}', password, port)
+        await ctx.send(res)
 
     @whitelist.command(name="remove")
     @has_any_role([1155382764984619019, 1335725605072801922]) # Bot Owner's Role, cm_whitelist
@@ -136,8 +147,18 @@ class Minecraft(commands.Cog):
         if checkIfContains(user, "()-&@*$|%~<>:\"'/\\?!#^*"):
             await ctx.send('Username contains invalid characters.')
             return
-        system('tmux send-keys -t CM \"whitelist remove ' + user + '\" enter')
-        await ctx.send(f'{user} *should* have been removed from the whitelist')
+        keys: dict = await self.bot.get_shared_api_tokens("minecraft")
+        if not keys.get('password'):
+            await ctx.send('Please set your rcon password in the Shared API Keys (!!set api) under service "minecraft" with key "password".')
+            return
+        password = keys.get('password')
+        try:
+            port = int(keys.get('port')) or 25575
+        except:
+            port = 25575
+
+        res = sendCommandToMinecraftServer(f'whitelist add {user}', password, port)
+        await ctx.send(res)
 
     @cobblemon.command(name="send")
     @commands.is_owner()
