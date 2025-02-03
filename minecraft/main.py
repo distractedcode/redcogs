@@ -90,7 +90,7 @@ class Minecraft(commands.Cog):
     @cobblemon.command(name="send")
     @commands.is_owner()
     async def send(self, ctx: Context, *, command):
-        keys: dict = self.bot.get_shared_api_tokens("minecraft")
+        keys: dict = await self.bot.get_shared_api_tokens("minecraft")
         if not keys.get('password'):
             await ctx.send('Please set your rcon password in the Shared API Keys (!!set api) under service "minecraft" with key "password".')
             return
