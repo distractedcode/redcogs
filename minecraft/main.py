@@ -176,7 +176,7 @@ class Minecraft(commands.Cog):
 
         res = sendCommandToMinecraftServer(command, password, port)
         await ctx.send('Sent command.')
-        if len(res) <= 4000:
+        if len(res) > 4000:
             await ctx.send('Response is too large to send to discord. Sorry!')
             return
         if res != "":
