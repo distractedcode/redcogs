@@ -4,6 +4,7 @@ from discord.ext.commands import Context, check
 from os import system
 from mcstatus import JavaServer
 from mcrcon import MCRcon
+from enum import Enum
 
 def checkIfContains(stringToCheck: str, stringWithUnsafeCharacters):
     for unsafe in stringWithUnsafeCharacters:
@@ -25,6 +26,57 @@ def sendCommandToMinecraftServer(command: str, password = "", port = 25575):
         resp = mcr.command("/" + command)
         return resp
 
+
+class types:
+    class pokemonKind(Enum):
+        any = 0
+        any_generation = 0
+        specific = 0
+
+
+def crystalGenerator(user, limitedUser, item, pokemon, pokeColor, pokemonKind):
+    ## This code looks like UTTER shit.
+    ## Seperate strings and build at end? LOL
+    custom_name = ""
+    if pokemonKind == types.pokemonKind.any:
+        custom_name += "custom_name='[\"\",{\"text\":\"Ditto\",\"italic\":false,\"color\":\"" + pokeColor + "\"},{\"text\":\" DNA Strand\",\"italic\":false,\"color\":\"aqua\"}]'"
+    elif pokemonKind == types.pokemonKind.any_generation:
+        raise ValueError('i dont wanna do this right now :(\nDuring command generation: 154: "elif pokemonKind == 1" (a.k.a Generation Pokemon Shard) raised ValueError.')
+        # custom_name += "custom_name='[\"\",{\"text\":\"Ditto\",\"color\":\"" + pokeColor + "\"},{\"text\":\" DNA Strand\",\"color\":\"aqua\"}]"
+    elif pokemonKind == types.pokemonKind.specific:
+        custom_name += "custom_name='[\"\",{\"text\":\"" + pokemon + "\",\"italic\":false,\"color\":\"" + pokeColor + "\"},{\"text\":\" DNA Crystal\",\"italic\":false,\"color\":\"aqua\"}]'"
+    # Onto LORE!!!
+    lore = "lore=['[\"\",{\"text\":\""
+    if pokemonKind == types.pokemonKind.any:
+        lore += "A DNA Strand from a Ditto, allowing the modification of the appearance\",\"color\":\"dark_aqua\"}]','[\"\",{\"text\":\"of a pokemon during the process of DNA recombination.\",\"color\":\"dark_aqua\"}]','[\"\"]',"
+    elif pokemonKind == types.pokemonKind.specific:
+        lore += "A Crystal containing what looks like DNA from " + pokemon + "."
+
+    newLine = '\'[\"\"]\','
+    lore += '\'["",{"text":"Give this item to Professor Dark Oak to use it.","italic":false,"color":"#cccccc"}]\','
+
+    #properties
+    if pokemonKind == types.pokemonKind.any:
+        lore += '\'["",{"text":"Permits Personal Pokemon DNA Modification:","italic":false,"color":"#eeeeee"}]\','
+    elif pokemonKind == types.pokemonKind.specific:
+        lore += '\'["",{"text":"Grants a ' + pokemon + ' with the following properties:","italic":false,"color":"#eeeeee"}]\','
+
+    if pokeColor == "dark_green": lore += '\'["",{"text":"No additional properties","italic":false,"color":"dark_green"}]\','
+    elif pokeColor == "aqua": lore += '\'["",{"text":"is a Shiny","italic":false,"color":"aqua"}]\','
+    elif pokeColor == "light_purple": lore += '\'["",{"text":"is a Legendary","italic":false,"color":"light_purple"}]\','
+    elif pokeColor == "green": lore += '\'["",{"text":"is a Mythical","italic":false,"color":"green"}]\','
+    elif pokeColor == "dark_red": lore += '\'["",{"text":"is a Legendary","italic":false,"color":"light_purple"}]\',' + newLine +  '\'["",{"text":"is a Shiny","italic":false,"color":"aqua"}]\''
+    elif pokeColor == "gold": lore += '\'["",{"text":"is a Mythical","italic":false,"color":"green"}]\',' + newLine + '\'["",{"text":"is a Shiny","italic":false,"color":"aqua"}]\''
+
+    if not limitedUser: lore += newLine + '\'["",{"text":"This item was generated for ' + user + '. Only they can use it.","color":"#cccccc"}]\''
+    elif limitedUser == "Example": lore += newLine + '\'["",{"text":"This item was generated as an ","color":"red"},{"text":"EXAMPLE","underlined":true,"color":"red"}, {"text":" item. This item is NOT valid.","color":"red"}]\''
+    elif limitedUser == "Anyone": pass
+    else: lore += newLine + '\'["",{"text":"This item was generated for ' + limitedUser + '","color":"#cccccc"}]\''
+    # finish up lore
+    lore += ']'
+
+    return 'give ' + user + ' ' + item + '[' + custom_name + ',' + lore + ']'
+    return f'give {user} {item}[{custom_name},{lore}]'
 
 
 class Minecraft(commands.Cog):
