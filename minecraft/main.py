@@ -75,7 +75,7 @@ def crystalGenerator(user, limitedUser, item, pokemon, pokeColor, pokemonKind):
     # finish up lore
     lore += ']'
 
-    return 'give ' + user + ' ' + item + '[' + custom_name + ',' + lore + ']'
+#     return 'give ' + user + ' ' + item + '[' + custom_name + ',' + lore + ']'
     return f'give {user} {item}[{custom_name},{lore}]'
 
 
@@ -155,5 +155,8 @@ class Minecraft(commands.Cog):
 
         res = sendCommandToMinecraftServer(command, password, port)
         await ctx.send('Sent command.')
+        if len(res) <= 4000:
+            await ctx.send('Response is too large to send to discord. Sorry!')
+            return
         if res != "":
             await ctx.send(res)
