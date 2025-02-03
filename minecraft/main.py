@@ -102,5 +102,6 @@ class Minecraft(commands.Cog):
             port = 25575
 
         res = sendCommandToMinecraftServer(command, password, port)
-        await ctx.send('Command sent. Response: ' + res)
-
+        await ctx.send('Sent command.')
+        if res != "":
+            await ctx.send(res)
