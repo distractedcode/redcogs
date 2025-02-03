@@ -157,7 +157,7 @@ class Minecraft(commands.Cog):
         except:
             port = 25575
 
-        res = sendCommandToMinecraftServer(f'whitelist add {user}', password, port)
+        res = sendCommandToMinecraftServer(f'whitelist remove {user}', password, port)
         await ctx.send(res)
 
     @cobblemon.command(name="send")
