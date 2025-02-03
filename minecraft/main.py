@@ -95,7 +95,12 @@ class Minecraft(commands.Cog):
             await ctx.send('Please set your rcon password in the Shared API Keys (!!set api) under service "minecraft" with key "password".')
             return
         password = keys.get('password')
-        port = keys.get('port') or 25575
-        sendCommandToMinecraftServer(command, password, port)
+        try:
+            port = int(keys.get('port')) or 25575
+        except:
+            await ctx.send('port is not set properly :O')
+            port = 25575
 
+        res = sendCommandToMinecraftServer(command, password, port)
+        await ctx.send('Command sent. Response: ' + res)
 
