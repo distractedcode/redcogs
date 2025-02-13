@@ -14,7 +14,7 @@ class code_stuffs(commands.Cog):
     @app_commands.describe(title="The title of the ticket", messagebody="The description of the ticket")
     @app_commands.rename(title="title", messagebody="body")
     @app_commands.user_install()
-    async def createticket(self, interaction: discord.Interaction, title: str, messagebody: str):
+    async def createticket(self, interaction: discord.Interaction, title: str, messagebody: str, user: discord.Member):
         """
         Create a forum post in a forum channel in a private server
         """
