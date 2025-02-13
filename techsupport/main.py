@@ -18,5 +18,4 @@ class code_stuffs(commands.Cog):
         """
         Create a forum post in a forum channel in a private server
         """
-        iR: InteractionResponse = interaction.response()
-        await iR.send_message("Pong!")
+        await interaction.response.send_message("Pong!")
