@@ -21,6 +21,12 @@ def has_any_role(roles: list):
         return False
     return check(predicate)
 
+def ranInGuild(guildId: int):
+    async def predicate(ctx: Context):
+        if ctx.channel.guild_id == guildId: return True
+        return False
+    return check(predicate)
+
 def sendCommandToMinecraftServer(command: str, password = "", port = 25575):
     with MCRcon("localhost", port=port, password=password) as mcr:
         resp = mcr.command("/" + command)
@@ -88,6 +94,7 @@ class Minecraft(commands.Cog):
         }
         self.config.register_guild(**default_guild)
 
+    @ranInGuild(984345607047098378)
     @commands.group()
     async def cobblemon(self, ctx):
         pass
