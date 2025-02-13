@@ -10,7 +10,6 @@ class code_stuffs(commands.Cog):
 
     @app_commands.command()
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-    @app_commands.user_install()
     @app_commands.describe(title="The title of the ticket", messagebody="The description of the ticket")
     @app_commands.rename(title="Title", messagebody="Body")
     async def createTicket(self, interaction: discord.Interaction, title: str, messagebody: str):
