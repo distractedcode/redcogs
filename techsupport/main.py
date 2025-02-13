@@ -1,6 +1,7 @@
 from redbot.core import commands, bot as Bot, app_commands, Config
 import discord
 from discord.ext.commands import Context, check
+from discord.interactions import InteractionResponse
 
 
 class code_stuffs(commands.Cog):
@@ -12,9 +13,10 @@ class code_stuffs(commands.Cog):
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     @app_commands.describe(title="The title of the ticket", messagebody="The description of the ticket")
     @app_commands.rename(title="title", messagebody="body")
+    @app_commands.user_install()
     async def createticket(self, interaction: discord.Interaction, title: str, messagebody: str):
         """
         Create a forum post in a forum channel in a private server
         """
-        interaction.response.send_message("working", ephemeral=True)
-
+        iR: InteractionResponse = interaction.response()
+        await iR.send_message("Pong!")
